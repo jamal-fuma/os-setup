@@ -2,8 +2,8 @@
 
 read_private_content_to_file()
 {
-	prompt="${1}"
-	filename="${2}"
+	local prompt="${1}"
+	local filename="${2}"
 
 	echo "${prompt}"
 	read -e secret_text
