@@ -55,19 +55,26 @@ EOS
 
 clone_dotfiles_repo()
 {
-	# user setup
-	dotfiles_dirname="${HOME}/dotfiles"
-	dotfiles_url="https://github.com/jamal-fuma/dotfiles"
-	dotfiles_install_sh_path="${dotfiles_dirname}/install.sh"
-	dotfiles_install_log_path="/tmp/dotfiles-install.log"
+	# paths
+	local dotfiles_dirname="${1}"
+	local dotfiles_install_log_path="${2}"
 
 	# pull from github
+	local dotfiles_url="https://github.com/jamal-fuma/dotfiles"
+	local dotfiles_install_sh_path="${dotfiles_dirname}/install.sh"
+
 	[ -d ${dotfiles_dirname} ] || \
 		git clone "${dotfiles_url}" "${dotfiles_dirname}"
 
 	# run the installer
-	[ ! -f "${dotfiles_install_log_path}" ]  && \
-		( /bin/sh "${dotfiles_install_sh_path}" | tee "${dotfiles_install_log_path}" )
+	if [ ! -f "${dotfiles_install_log_path}" ] ;
+    then
+        /bin/sh "${dotfiles_install_sh_path}" | \
+            tee "${dotfiles_install_log_path}" ;
+
+        inject_smudge_clean_filters "${dotfiles_dirname}" | \
+            tee -a "${dotfiles_install_log_path}" ;
+    fi
 }
 
 help()
@@ -77,13 +84,16 @@ help()
 
 main()
 {
+	gitpass_dirname="${HOME}/.gitpass"
+	dotfiles_dirname="${HOME}/dotfiles"
+	dotfiles_install_log_path="/tmp/dotfiles-install.log"
 case $1 in
 help)
 		help
 		;;
 *)
-		create_gitpass_directory;
-		clone_dotfiles_repo;
+		create_gitpass_directory  "${gitpass_dirname}";
+		clone_dotfiles_repo "${dotfiles_dirname}" "${dotfiles_install_log_path}";
 	;;
 esac
 }
