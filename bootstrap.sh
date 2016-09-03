@@ -15,13 +15,13 @@ read_private_content_to_file()
 create_gitpass_directory()
 {
 	# secret storage
-	gitpass_dirname="${HOME}/.gitpass"
-	gitpass_passwd_path="${gitpass_dirname}/passwd"
-	gitpass_salt_path="${gitpass_dirname}/salt"
+	local gitpass_dirname="${1}"
+	local gitpass_passwd_path="${gitpass_dirname}/passwd"
+	local gitpass_salt_path="${gitpass_dirname}/salt"
 
 	# create_gitpass_directory
-	[ -d "$g_gitpass_path" ] \
-		|| mkdir -p "$g_gitpass_path";
+	[ -d "$gitpass_dirname" ] \
+		|| mkdir -p "$gitpass_dirname";
 
 	# populate passwd
 	[ -f "$gitpass_passwd_path" ] || \
