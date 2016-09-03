@@ -32,6 +32,27 @@ create_gitpass_directory()
 		read_private_content_to_file "Gitpass: enter salt" "${gitpass_salt_path}"
 }
 
+inject_smudge_clean_filters()
+{
+    # augment git/.config with smudge filters
+	local dotfiles_dirname="${1}"
+	local dotfiles_git_config_path="${dotfiles_dirname}/.git/config"
+
+    # sed replacements
+	local gitencrypt_dirname="${dotfiles_dirname}/gitencrypt"
+
+    grep -q 'filter\s+"openssl"' "${dotfiles_git_config_path}" || \
+        sed -e "/@@_/{
+s|@@_HOOKDIR_@@|${gitencrypt_dirname}|g;
+}" >> "${dotfiles_git_config_path}" <<'EOS'
+[filter "openssl"]
+        smudge = @@_HOOKDIR_@@/smudge_filter_openssl
+        clean  = @@_HOOKDIR_@@/clean_filter_openssl
+[diff "openssl"]
+        textconv = @@_HOOKDIR_@@/diff_filter_openssl
+EOS
+}
+
 clone_dotfiles_repo()
 {
 	# user setup
