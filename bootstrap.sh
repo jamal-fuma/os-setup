@@ -6,7 +6,7 @@ read_private_content_to_file()
 	local filename="${2}"
 
 	echo "${prompt}"
-	read -e secret_text
+	read secret_text
 
 	echo "${secret_text}" > "${filename}"
 	chmod 600 ${filename}
@@ -18,7 +18,7 @@ read_private_content_from_specified_file()
 	local filename="${2}"
 
 	echo "${prompt}"
-	read -e secret_path
+	read secret_path
 
 	cp -v "${secret_path}" "${filename}"
 	chmod 600 ${filename}
