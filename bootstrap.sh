@@ -12,6 +12,19 @@ read_private_content_to_file()
 	chmod 600 ${filename}
 }
 
+read_private_content_from_specified_file()
+{
+	local prompt="${1}"
+	local filename="${2}"
+
+	echo "${prompt}"
+	read -e secret_path
+
+	cp -v "${secret_path}" "${filename}"
+	chmod 600 ${filename}
+}
+
+
 mkdir_private()
 {
 	local private_dirname="${1}"
@@ -118,7 +131,7 @@ setup_ssh_directory()
 
     # prompt for private keys
     [ -f "${ssh_github_seckey_path}" ] || \
-        read_private_content_to_file "Enter private key for ${ssh_github_seckey_basename}" "${ssh_github_seckey_path}"
+        read_private_content_from_specified_file "Enter path to private key for ${ssh_github_seckey_basename}" "${ssh_github_seckey_path}"
 }
 
 help()
