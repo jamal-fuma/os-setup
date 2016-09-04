@@ -32,8 +32,7 @@ create_gitpass_directory()
 	local gitpass_salt_path="${gitpass_dirname}/salt"
 
 	# create_gitpass_directory
-	[ -d "$gitpass_dirname" ] \
-		|| mkdir -p "$gitpass_dirname";
+    mkdir_private "${gitpass_dirname}"
 
 	# populate passwd
 	[ -f "$gitpass_passwd_path" ] || \
