@@ -96,7 +96,10 @@ setup_ssh_directory()
 	local ssh_dirname="${2}"
 	local ssh_config_path="${ssh_dirname}/config"
 	local ssh_pubkey_url="https://github.com/jamal-fuma.keys"
-	local ssh_github_pubkey_path="${ssh_dirname}/github_id_rsa.pub"
+
+	local ssh_github_seckey_basename="github_id_rsa"
+	local ssh_github_seckey_path="${ssh_dirname}/${ssh_github_seckey_basename}"
+	local ssh_github_pubkey_path="${ssh_github_seckey_path}.pub"
 
 	# create_ssh_directory
 	mkdir_private "$ssh_dirname";
@@ -109,8 +112,13 @@ setup_ssh_directory()
         );
 
     # fetch my github public key since github exposes it anyway
-    ( curl -s "${ssh_pubkey_url}"; printf "\n"; ) | \
-        read_private_content_to_file "Fetching public key" "${ssh_github_pubkey_path}"
+    [ -f "${ssh_github_pubkey_path}" ] || \
+        ( curl -s "${ssh_pubkey_url}"; printf "\n"; ) | \
+            read_private_content_to_file "Fetching public key" "${ssh_github_pubkey_path}"
+
+    # prompt for private keys
+    [ -f "${ssh_github_seckey_path}" ] || \
+        read_private_content_to_file "Enter private key for ${ssh_github_seckey_basename}" "${ssh_github_seckey_path}"
 }
 
 help()
