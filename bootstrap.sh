@@ -12,6 +12,18 @@ read_private_content_to_file()
 	chmod 600 ${filename}
 }
 
+mkdir_private()
+{
+	local private_dirname="${1}"
+
+	# create_private_directory
+	[ -d "$private_dirname" ] || \
+        ( \
+        mkdir -p "$private_dirname"; \
+        chmod 700 "$private_dirname"; \
+        );
+}
+
 create_gitpass_directory()
 {
 	# secret storage
