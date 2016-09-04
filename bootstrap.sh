@@ -41,7 +41,7 @@ inject_smudge_clean_filters()
     # sed replacements
 	local gitencrypt_dirname="${dotfiles_dirname}/gitencrypt"
 
-    grep -q 'filter\s+"openssl"' "${dotfiles_git_config_path}" || \
+    grep -q 'filter "openssl"' "${dotfiles_git_config_path}" || \
         sed -e "/@@_/{
 s|@@_HOOKDIR_@@|${gitencrypt_dirname}|g;
 }" >> "${dotfiles_git_config_path}" <<'EOS'
