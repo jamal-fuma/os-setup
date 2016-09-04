@@ -79,19 +79,19 @@ EOS
 
 clone_dotfiles_repo()
 {
-	# paths
-	local dotfiles_dirname="${1}"
-	local dotfiles_install_log_path="${2}"
+  # paths
+  local dotfiles_dirname="${1}"
+  local dotfiles_install_log_path="${2}"
 
-	# pull from github
-	local dotfiles_url="https://github.com/jamal-fuma/dotfiles"
-	local dotfiles_install_sh_path="${dotfiles_dirname}/install.sh"
+  # pull from github
+  local dotfiles_url="https://github.com/jamal-fuma/dotfiles"
+  local dotfiles_install_sh_path="${dotfiles_dirname}/install.sh"
 
-	[ -d ${dotfiles_dirname} ] || \
-		git clone "${dotfiles_url}" "${dotfiles_dirname}"
+  [ -d ${dotfiles_dirname} ] || \
+    git clone "${dotfiles_url}" "${dotfiles_dirname}"
 
-	# run the installer
-	if [ ! -f "${dotfiles_install_log_path}" ] ;
+  # run the installer
+  if [ ! -f "${dotfiles_install_log_path}" ] ;
     then
         /bin/sh "${dotfiles_install_sh_path}" | \
             tee "${dotfiles_install_log_path}" ;
@@ -103,19 +103,19 @@ clone_dotfiles_repo()
 
 setup_ssh_directory()
 {
-	local dotfiles_dirname="${1}"
-	local dotfiles_ssh_config_path="${dotfiles_dirname}/ssh/config"
+  local dotfiles_dirname="${1}"
+  local dotfiles_ssh_config_path="${dotfiles_dirname}/ssh/config"
 
-	local ssh_dirname="${2}"
-	local ssh_config_path="${ssh_dirname}/config"
-	local ssh_pubkey_url="https://github.com/jamal-fuma.keys"
+  local ssh_dirname="${2}"
+  local ssh_config_path="${ssh_dirname}/config"
+  local ssh_pubkey_url="https://github.com/jamal-fuma.keys"
 
-	local ssh_github_seckey_basename="github_id_rsa"
-	local ssh_github_seckey_path="${ssh_dirname}/${ssh_github_seckey_basename}"
-	local ssh_github_pubkey_path="${ssh_github_seckey_path}.pub"
+  local ssh_github_seckey_basename="github_id_rsa"
+  local ssh_github_seckey_path="${ssh_dirname}/${ssh_github_seckey_basename}"
+  local ssh_github_pubkey_path="${ssh_github_seckey_path}.pub"
 
-	# create_ssh_directory
-	mkdir_private "$ssh_dirname";
+  # create_ssh_directory
+  mkdir_private "$ssh_dirname";
 
     # bootstrap with github config
     [ -f "${ssh_config_path}" ] || \
@@ -136,24 +136,24 @@ setup_ssh_directory()
 
 help()
 {
-	echo "Beyond help you are";
+  echo "Beyond help you are";
 }
 
 main()
 {
-	gitpass_dirname="${HOME}/.gitpass"
-	ssh_dirname="${HOME}/.ssh"
-	dotfiles_dirname="${HOME}/dotfiles"
-	dotfiles_install_log_path="/tmp/dotfiles-install.log"
+  gitpass_dirname="${HOME}/.gitpass"
+  ssh_dirname="${HOME}/.ssh"
+  dotfiles_dirname="${HOME}/dotfiles"
+  dotfiles_install_log_path="/tmp/dotfiles-install.log"
 case $1 in
 help)
-		help
-		;;
+    help
+    ;;
 *)
-		create_gitpass_directory  "${gitpass_dirname}";
-		clone_dotfiles_repo "${dotfiles_dirname}" "${dotfiles_install_log_path}";
-        setup_ssh_directory "${dotfiles_dirname}" "${ssh_dirname}"
-	;;
+    create_gitpass_directory  "${gitpass_dirname}";
+    clone_dotfiles_repo "${dotfiles_dirname}" "${dotfiles_install_log_path}";
+    setup_ssh_directory "${dotfiles_dirname}" "${ssh_dirname}"
+  ;;
 esac
 }
 main
