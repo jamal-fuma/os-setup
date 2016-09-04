@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 read_private_content_to_file()
 {
