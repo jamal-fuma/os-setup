@@ -93,7 +93,24 @@ setup_ssh_directory()
 	local dotfiles_dirname="${1}"
 	local dotfiles_ssh_config_path="${dotfiles_dirname}/ssh/config"
 
-    printf "%s\n" "${dotfiles_ssh_config_path}"
+	local ssh_dirname="${2}"
+	local ssh_config_path="${ssh_dirname}/config"
+	local ssh_pubkey_url="https://github.com/jamal-fuma.keys"
+	local ssh_github_pubkey_path="${ssh_dirname}/github_id_rsa.pub"
+
+	# create_ssh_directory
+	mkdir_private "$ssh_dirname";
+
+    # bootstrap with github config
+    [ -f "${ssh_config_path}" ] || \
+        ( \
+        cp -v "${dotfiles_ssh_config_path}" "${ssh_config_path}"; \
+        chmod 600 "${ssh_config_path}"; \
+        );
+
+    # fetch my github public key since github exposes it anyway
+    ( curl -s "${ssh_pubkey_url}"; printf "\n"; ) | \
+        read_private_content_to_file "Fetching public key" "${ssh_github_pubkey_path}"
 }
 
 help()
