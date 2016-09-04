@@ -77,6 +77,14 @@ clone_dotfiles_repo()
     fi
 }
 
+setup_ssh_directory()
+{
+	local dotfiles_dirname="${1}"
+	local dotfiles_ssh_config_path="${dotfiles_dirname}/ssh/config"
+
+    printf "%s\n" "${dotfiles_ssh_config_path}"
+}
+
 help()
 {
 	echo "Beyond help you are";
@@ -94,6 +102,7 @@ help)
 *)
 		create_gitpass_directory  "${gitpass_dirname}";
 		clone_dotfiles_repo "${dotfiles_dirname}" "${dotfiles_install_log_path}";
+        setup_ssh_directory "${dotfiles_dirname}"
 	;;
 esac
 }
