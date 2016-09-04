@@ -104,6 +104,7 @@ help()
 main()
 {
 	gitpass_dirname="${HOME}/.gitpass"
+	ssh_dirname="${HOME}/.ssh"
 	dotfiles_dirname="${HOME}/dotfiles"
 	dotfiles_install_log_path="/tmp/dotfiles-install.log"
 case $1 in
@@ -113,7 +114,7 @@ help)
 *)
 		create_gitpass_directory  "${gitpass_dirname}";
 		clone_dotfiles_repo "${dotfiles_dirname}" "${dotfiles_install_log_path}";
-        setup_ssh_directory "${dotfiles_dirname}"
+        setup_ssh_directory "${dotfiles_dirname}" "${ssh_dirname}"
 	;;
 esac
 }
